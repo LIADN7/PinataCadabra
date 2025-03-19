@@ -146,8 +146,8 @@ TextureImporter:
         y: 0
         width: 10
         height: 250
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -164,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f71018fa5ccf3684393955b494ad8c95
     internalID: 0
     vertices: []
     indices: 
@@ -173,7 +173,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pinata_rope_0: -7911958486714203767
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
