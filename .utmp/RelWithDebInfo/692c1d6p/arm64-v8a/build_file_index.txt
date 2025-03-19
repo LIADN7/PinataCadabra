@@ -1,0 +1,3 @@
+C:\StudyProjects\UnityProjects\Pinatacadabra\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+C:\StudyProjects\UnityProjects\Pinatacadabra\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\FramePacing\CMakeLists.txt
+C:\StudyProjects\UnityProjects\Pinatacadabra\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt
