@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: a0c45c1305f50024192f07ec9ac3074a
+guid: 8b1a9ed01c9d0d34db994c70e44edf32
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3346343129214367496
-    second: blue_ball_0
-  - first:
-      213: 2778721821058081704
-    second: blue_ball_1
-  - first:
-      213: -5239799892944773405
-    second: blue_ball_2
+      213: 3417778188763613069
+    second: gold_particle_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -145,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: blue_ball_0
+      name: gold_particle_0
       rect:
         serializedVersion: 2
-        x: 84
-        y: 125
-        width: 312
-        height: 255
+        x: 0
+        y: 0
+        width: 15
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,52 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8f8cb9657a66f81d0800000000000000
-      internalID: -3346343129214367496
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: blue_ball_1
-      rect:
-        serializedVersion: 2
-        x: 309
-        y: 371
-        width: 13
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8a32bc126c0009620800000000000000
-      internalID: 2778721821058081704
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: blue_ball_2
-      rect:
-        serializedVersion: 2
-        x: 116
-        y: 118
-        width: 30
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3ee95ee42cd7847b0800000000000000
-      internalID: -5239799892944773405
+      spriteID: d87455e87236e6f20800000000000000
+      internalID: 3417778188763613069
       vertices: []
       indices: 
       edges: []

@@ -1,19 +1,22 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MovementJoystick : MonoBehaviour
+public class ShootingJoystick : MonoBehaviour
 {
-    // Joystick knob and background GameObjects
+    [Header("Joystick UI References")]
     public GameObject joystick;
     public GameObject joystickBG;
 
-    // The vector representing the normalized direction from the joystick background center to the knob
-    public Vector2 joystickVec;
+    [Header("Weapon Reference")]
+    public Weapon playerWeapon; // Assign in the Inspector (e.g., a ProjectileWeapon)
+    [Header("Spawner Reference")]
+    public WeaponSpawner spawner;
 
-    // Initial position of the joystick background (fixed)
+    // The vector representing the normalized direction from the joystick BG center to the knob
+    private Vector2 joystickVec;
     private Vector2 joystickOriginalPos;
-
     private float joystickRadius;
+
 
     void Start()
     {
@@ -24,18 +27,16 @@ public class MovementJoystick : MonoBehaviour
     }
 
     /// <summary>
-    /// Called when the player touches the joystick button.
-    /// The background remains fixed while the joystick knob will move relative to it.
+    /// Called when the player touches the shooting joystick.
     /// </summary>
     public void PointerDown()
     {
-        // Instead of moving the background, we simply set the starting position for the knob relative to the fixed BG.
+        // Reset the knob position to the fixed background center
         joystick.transform.position = joystickOriginalPos;
     }
 
     /// <summary>
-    /// Called while dragging the joystick.
-    /// The joystick knob moves relative to the fixed background.
+    /// Called while dragging the shooting joystick.
     /// </summary>
     /// <param name="baseEventData">The event data containing the current pointer position.</param>
     public void Drag(BaseEventData baseEventData)
@@ -43,13 +44,13 @@ public class MovementJoystick : MonoBehaviour
         PointerEventData pointerEventData = baseEventData as PointerEventData;
         Vector2 dragPos = pointerEventData.position;
 
-        // Calculate the direction vector from the fixed background center to the current drag position
+        // Calculate the direction vector from the background center to the drag position
         joystickVec = (dragPos - joystickOriginalPos).normalized;
 
         // Calculate the distance between the drag position and the joystick background center
         float joystickDist = Vector2.Distance(dragPos, joystickOriginalPos);
 
-        // Limit the movement of the joystick knob to within the joystickRadius
+        // Move the knob within the radius limit
         if (joystickDist < joystickRadius)
         {
             joystick.transform.position = joystickOriginalPos + joystickVec * joystickDist;
@@ -61,14 +62,24 @@ public class MovementJoystick : MonoBehaviour
     }
 
     /// <summary>
-    /// Called when the player releases the joystick button.
-    /// Resets the joystick knob position and the direction vector.
+    /// Called when the player releases the shooting joystick.
+    /// Spawns and fires a projectile in the *opposite* direction of the final drag.
     /// </summary>
     public void PointerUp()
     {
-        // Reset the direction vector to zero so that no movement is triggered
-        joystickVec = Vector2.zero;
-        // Reset the knob back to the fixed background position
+
+
+        // Calculate the shooting direction as the opposite of the joystick vector
+        Vector2 shootDirection = -joystickVec;
+
+        // Only fire if there's a significant pull on the joystick
+        if (shootDirection.sqrMagnitude > 0.01f && spawner != null)
+        {
+            spawner.SpawnAndFireWeapon(shootDirection);
+        }
+
+        // Reset the knob and direction
         joystick.transform.position = joystickOriginalPos;
+        joystickVec = Vector2.zero;
     }
 }
