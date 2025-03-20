@@ -7,10 +7,8 @@ public class ShootingJoystick : MonoBehaviour
     public GameObject joystick;
     public GameObject joystickBG;
 
-    [Header("Weapon Reference")]
-    public Weapon playerWeapon; // Assign in the Inspector (e.g., a ProjectileWeapon)
-    [Header("Spawner Reference")]
-    public WeaponSpawner spawner;
+    [Header("Warrior Reference")]
+    public Warrior warrior; // Assign the Warrior (player) in the Inspector
 
     // The vector representing the normalized direction from the joystick BG center to the knob
     private Vector2 joystickVec;
@@ -73,9 +71,10 @@ public class ShootingJoystick : MonoBehaviour
         Vector2 shootDirection = -joystickVec;
 
         // Only fire if there's a significant pull on the joystick
-        if (shootDirection.sqrMagnitude > 0.01f && spawner != null)
+        if (shootDirection.sqrMagnitude > 0.01f)
         {
-            spawner.SpawnAndFireWeapon(shootDirection);
+            // spawner.SpawnAndFireWeapon(shootDirection);
+            warrior.Shoot(shootDirection);
         }
 
         // Reset the knob and direction
