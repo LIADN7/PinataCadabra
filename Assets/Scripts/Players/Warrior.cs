@@ -26,7 +26,10 @@ public class Warrior : Player
     void FixedUpdate()
     {
         if (GameManager.inst.IsState(GameManager.GameState.Play))
+        {
+
             this.Move();
+        }
     }
 
     public override void Shoot(Vector2 direction)
