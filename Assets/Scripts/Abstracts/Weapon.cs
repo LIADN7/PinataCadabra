@@ -8,6 +8,7 @@ public abstract class Weapon : MonoBehaviour
 
     // The spell will be destroyed after 5 seconds
     public float Lifetime { get; protected set; }
+    public bool IsDead = false;
 
     // // The rate of fire for this weapon (e.g., shots per second)
     // [SerializeField] public float FireRate { get; protected set; }

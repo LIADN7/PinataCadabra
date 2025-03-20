@@ -9,8 +9,6 @@ public abstract class Player : MonoBehaviour
     // Player Weapon reference (can be a separate Weapon class)
     public Weapon PlayerWeapon { get; protected set; }
 
-    public string Name { get; protected set; }
-
     // Abstract Methods that subclasses must implement
     public abstract void Shoot(Vector2 direction);
     public abstract void Move();
