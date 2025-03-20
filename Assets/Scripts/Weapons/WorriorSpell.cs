@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class WorriorSpell : Weapon
@@ -18,18 +19,12 @@ public class WorriorSpell : Weapon
         rb = GetComponent<Rigidbody2D>();
         // Example stats
         this.Damage = 10;
-        this.Lifetime = 3f;
+        this.Lifetime = 5f;
         // this.FireRate = 2f; // 1 shot per second
     }
 
     public override void Fire(Vector2 direction)
     {
-        // Check if the weapon is on cooldown
-        // if (Time.time - lastFireTime < 1f / FireRate)
-        //     return;
-
-        // lastFireTime = Time.time;
-
         // Instead of instantiating a new projectile, use this object's Rigidbody2D to move it
         if (rb != null)
         {
@@ -42,12 +37,47 @@ public class WorriorSpell : Weapon
 
     public override void Hit()
     {
-        // Implement explosion, visual effects, or any other impact logic
-        Debug.Log("WorriorSpell hit something! Triggering explosion or special effect...");
-        // For example, you might instantiate an explosion effect:
-        // Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        if (!IsDead)
+        {
 
-        // Optionally, destroy the spell immediately on hit
-        Destroy(gameObject);
+            // Implement explosion, visual effects, or any other impact logic
+            Debug.Log("WorriorSpell hit something! Triggering explosion or special effect...");
+            IsDead = true;
+            ExplosionEffect();
+        }
+
+
     }
+    private void ExplosionEffect()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        float duration = 0.5f;
+
+        // Debug.Log("aaa" + transform.localScale);
+        // Scale Tween (Once, then destroy)
+        LeanTween.scale(gameObject, transform.localScale * 2f, duration)
+            .setEase(LeanTweenType.easeOutQuad);
+
+        if (sr != null)
+        {
+            // Fade Tween
+            LeanTween.value(gameObject, sr.color.a, 0f, duration)
+                .setOnUpdate((float value) =>
+                {
+                    Color newColor = sr.color;
+                    newColor.a = value;
+                    sr.color = newColor;
+                })
+                .setOnComplete(() => Destroy(gameObject));
+        }
+    }
+
+    protected void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Pinata"))
+        {
+            Hit();
+        }
+    }
+
 }
