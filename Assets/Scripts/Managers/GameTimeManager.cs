@@ -2,35 +2,29 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// This class is responsible for showing the game's elapsed time.
+/// </summary>
 public class GameTimeManager : MonoBehaviour
 {
+
     private float elapsedTime = 0f;
     private bool isRunning = false;
     private Coroutine timerCoroutine;
 
     public TextMeshProUGUI textMesh;
-
-    /// <summary>
-    /// Returns the total elapsed time (in seconds).
-    /// </summary>
     public float ElapsedTime => elapsedTime;
-
 
     void Start()
     {
         StartTimer();
     }
 
-
-    /// <summary>
-    /// Starts the timer: resets the elapsed time and starts the coroutine.
-    /// </summary>
+    // Start the timer
     public void StartTimer()
     {
         elapsedTime = 0f;
         isRunning = true;
-
-        // If a timer coroutine is already running, stop it first.
         if (timerCoroutine != null)
         {
             StopCoroutine(timerCoroutine);
@@ -38,9 +32,7 @@ public class GameTimeManager : MonoBehaviour
         timerCoroutine = StartCoroutine(TimerCoroutine());
     }
 
-    /// <summary>
-    /// Stops the timer and the coroutine.
-    /// </summary>
+    // Stop timer
     public void StopTimer()
     {
         isRunning = false;
@@ -51,13 +43,12 @@ public class GameTimeManager : MonoBehaviour
         }
     }
 
+    // Updates the text every second
     private IEnumerator TimerCoroutine()
     {
         while (isRunning)
         {
             yield return new WaitForSeconds(1f);
-
-            // Only update the timer if the game is in Play state.
             if (GameManager.inst.IsState(GameManager.GameState.Play))
             {
                 elapsedTime += 1f;

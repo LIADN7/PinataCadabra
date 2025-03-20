@@ -14,6 +14,7 @@ public abstract class Player : MonoBehaviour
     public abstract void Move();
     public abstract void Die();
     public abstract void Win();
+    public abstract void Hit();
 
     // Concrete implementation shared by subclasses
     public virtual void UpdateLife(int amount)

@@ -1,19 +1,21 @@
 using UnityEngine;
-// Using the Unity Cloud Save namespace if you have it installed
 // using Unity.Services.CloudSave;
 
+/// <summary>
+/// Manages the player's score
+/// </summary>
 public class ScoreManager : MonoBehaviour
 {
     // Singleton instance
-    public static ScoreManager Instance { get; private set; }
+    public static ScoreManager Inst { get; private set; }
 
     [Header("Player Data")]
     public string playerName;
+    public int score;
 
     [Header("Game Duration")]
     public float finalGameTime; // Final time recorded at game end (in seconds)
 
-    public int score;
 
 
 
@@ -21,11 +23,10 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
-        // Enforce singleton pattern
-        if (Instance == null)
+        if (Inst == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // Persist across scenes
+            Inst = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -33,35 +34,28 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Adds points to the player's score.
-    /// </summary>
+    // Add points
     public void AddScore(int points)
     {
         score += points;
     }
 
-    /// <summary>
-    /// Sets the player's name.
-    /// </summary>
+
+    // Sets player name
     public void SetPlayerName(string name)
     {
         playerName = name;
     }
 
-    /// <summary>
-    /// Resets the player's score.
-    /// </summary>
+
+    // Resets the player's score and time
     public void ResetScore()
     {
         finalGameTime = 0;
         score = 0;
     }
 
-    /// <summary>
-    /// Saves the player's name and score to Unity Cloud.
-    /// Replace the placeholder code with actual Unity Cloud Save API calls.
-    /// </summary>
+    // Update leadboard on Unity Cloud
     public void SaveScoreToCloud()
     {
         Debug.Log("Saving score to Unity Cloud...");

@@ -1,16 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
+using UnityEngine;
+/// <summary>
+/// Manages the warrior's movement, shooting, and game interactions. Uses joystick input to update movement and fire spells
+/// </summary>
 public class Warrior : Player
 {
     public MovementJoystick movementJoystick;
     [Header("Firing Settings")]
-    public WeaponSpawner spawner; // Assign your WeaponSpawner in the Inspector
+    public WeaponSpawner spawner; // Assign WeaponSpawner
 
     public float playerSpeed;
     public float yOffSet = 0.3f; // Maximum offset allowed from the initial Y position
-    private float smoothing = 5f; // Smoothing factor for velocity interpolation
+    private float smoothing = 5f; // Smoothing factor for stop movement
 
     private float initY;
     private Rigidbody2D rb;
@@ -19,42 +20,37 @@ public class Warrior : Player
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        initY = transform.position.y; // Save the initial Y position
+        initY = transform.position.y; // Initial Y position
     }
 
-    // FixedUpdate is called once per physics frame
     void FixedUpdate()
     {
+        // Move when the game is on "play" and the joystick is on Drag
         if (GameManager.inst.IsState(GameManager.GameState.Play))
         {
-
             this.Move();
         }
     }
 
+    // Use the spawner to shoot the weapon in the given direction.
     public override void Shoot(Vector2 direction)
     {
-        // Use the spawner to create and fire the weapon in the given direction.
         if (GameManager.inst.IsState(GameManager.GameState.Play))
         {
             spawner.SpawnAndFireWeapon(direction);
         }
     }
 
+    // Joysticl movement
     public override void Move()
     {
-        // Calculate the target velocity based on joystick input
         Vector2 targetVelocity = Vector2.zero;
         if (movementJoystick.joystickVec.y != 0)
         {
             targetVelocity = new Vector2(movementJoystick.joystickVec.x * playerSpeed,
                                          movementJoystick.joystickVec.y * playerSpeed);
         }
-
-        // Smoothly interpolate from the current velocity to the target velocity
         rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, targetVelocity, smoothing * Time.fixedDeltaTime);
-
-        // Clamp the Y position between initY - val and initY + val to restrict vertical movement
         float clampedY = Mathf.Clamp(transform.position.y, initY - yOffSet, initY + yOffSet);
         transform.position = new Vector3(transform.position.x, clampedY, transform.position.z);
     }
@@ -65,6 +61,11 @@ public class Warrior : Player
     }
 
     public override void Win()
+    {
+
+    }
+
+    public override void Hit()
     {
 
     }
