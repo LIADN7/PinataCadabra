@@ -8,11 +8,18 @@ public class Pinata : Player
 
     // The hit modulo value - drop a head every 'hitModulo' hits.
     [SerializeField] private int hitModulo = 3;
-    [SerializeField] public GameObject[] HeadsObject;
-    private int HitCount = 0; // Counter for the number of hits
+    [SerializeField] public GameObject[] headsObject;
+    [SerializeField] public GameObject explosionGO;
+    private int hitCount = 0; // Counter for the number of hits
 
     public PointSpawner PointSpawner;
 
+
+    private void Awake()
+    {
+
+        this.Life = hitModulo * headsObject.Length;
+    }
 
     private void Start()
     {
@@ -23,12 +30,23 @@ public class Pinata : Player
 
     public override void Die()
     {
-        throw new System.NotImplementedException();
+        explosionGO.GetComponent<ParticleSystem>().Play();
+        for (int i = 0; i < 20; i++)
+        {
+            PointSpawner spawner = FindObjectOfType<PointSpawner>();
+            if (spawner != null)
+            {
+                spawner.SpawnPoint();
+            }
+        }
+        ScoreManager.Inst.StopTimer();
+        ScoreConfig.Inst.SetFinalGameTime(ScoreManager.Inst.GetLastTimer());
+        GameManager.inst.ChangeState(GameManager.GameState.Win);
+        Destroy(gameObject);
     }
 
     public override void Move()
     {
-        throw new System.NotImplementedException();
     }
 
     public override void Shoot(Vector2 direction)
@@ -44,17 +62,21 @@ public class Pinata : Player
 
     public override void Hit()
     {
+        hitCount++; // Increment hit counter on each hit
+        this.UpdateLife(-1);
         // Create point item and spawn
         int newPoint = PointSpawner.SpawnPoint();
-        ScoreManager.Inst.AddScore(newPoint);
-        DamageEffect();
 
+        ScoreConfig.Inst.AddScore(newPoint);
+        ScoreManager.Inst?.UpdateScoreTextUI(ScoreConfig.Inst.score);
+
+        DamageEffect();
         // Every "hitModulo" hits, trigger DropHeadEffect
-        if (HitCount % hitModulo == 0)
+        if (hitCount % hitModulo == 0)
         {
             DropHeadEffect();
         }
-        HitCount++; // Increment hit counter on each hit
+
     }
 
 
@@ -90,10 +112,10 @@ public class Pinata : Player
     // Head fall effect
     private void DropHeadEffect()
     {
-        int headNum = (HitCount / hitModulo);
-        if (headNum < HeadsObject.Length)
+        int headNum = (hitCount / hitModulo) - 1;
+        if (headNum < headsObject.Length && headNum >= 0)
         {
-            GameObject head = HeadsObject[headNum];
+            GameObject head = headsObject[headNum];
             head.transform.SetParent(null);
 
             // Animate the head falling to the bottom of the screen

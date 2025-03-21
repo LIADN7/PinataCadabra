@@ -8,6 +8,9 @@ TagManager:
   - Worrior
   - WorriorSpell
   - PinataSpell
+  - ScoreConfig
+  - GameManager
+  - ScoreManager
   layers:
   - Default
   - TransparentFX
