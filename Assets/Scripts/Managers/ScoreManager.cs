@@ -1,89 +1,123 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 // using Unity.Services.CloudSave;
 
 /// <summary>
-/// Manages the player's score
+/// Manages the player's score UI
 /// </summary>
 public class ScoreManager : MonoBehaviour
 {
     // Singleton instance
     public static ScoreManager Inst { get; private set; }
 
-    [Header("Player Data")]
-    public string playerName;
-    public int score;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI timeText;
+    [SerializeField] private TextMeshProUGUI scoreText;
 
-    [Header("Game Duration")]
-    public float finalGameTime; // Final time recorded at game end (in seconds)
+    private GameTimeManager timeManager;
 
-
-
-
-
-
-    private void Awake()
+    private void Start()
     {
-        if (Inst == null)
+        Inst = this;
+        timeManager = new GameTimeManager(this);
+
+
+        if (GameManager.inst.IsState(GameManager.GameState.Play))
         {
-            Inst = this;
-            DontDestroyOnLoad(gameObject);
+            StartTimer();
         }
         else
         {
-            Destroy(gameObject);
+            StopTimer();
+            UpdateTime(ScoreConfig.Inst.finalGameTime);
         }
+        UpdateNameTextUI(ScoreConfig.Inst.playerName);
+        UpdateScoreTextUI(ScoreConfig.Inst.score);
     }
 
-    // Add points
-    public void AddScore(int points)
+    public void StartTimer()
     {
-        score += points;
+        timeManager.StartTimer();
+    }
+
+    public void StopTimer()
+    {
+        timeManager.StopTimer();
+    }
+    public float GetLastTimer()
+    {
+        return timeManager.GetElapsedTime();
+    }
+
+    public void UpdateNameTextUI(string name)
+    {
+        nameText.text = name.ToString();
+    }
+    public void UpdateScoreTextUI(int score)
+    {
+
+        scoreText.text = score.ToString();
+
+    }
+
+    public void UpdateTime(float time)
+    {
+        timeText.text = time.ToString();
+
     }
 
 
-    // Sets player name
-    public void SetPlayerName(string name)
+
+    // Nested private class that handles game time logic.
+    private class GameTimeManager
     {
-        playerName = name;
-    }
+        private float elapsedTime = 0f;
+        private bool isRunning = false;
+        private Coroutine timerCoroutine;
+        private ScoreManager parent;
 
-
-    // Resets the player's score and time
-    public void ResetScore()
-    {
-        finalGameTime = 0;
-        score = 0;
-    }
-
-    // Update leadboard on Unity Cloud
-    public void SaveScoreToCloud()
-    {
-        Debug.Log("Saving score to Unity Cloud...");
-
-        // Create a data object (could be a JSON or a Dictionary<string, object>)
-        var scoreData = new System.Collections.Generic.Dictionary<string, object>
+        public GameTimeManager(ScoreManager parent)
         {
-            { "playerName", playerName },
-            { "score", score }
-        };
+            this.parent = parent;
+        }
 
-        // Pseudo-code for cloud save:
-        // Unity.Services.CloudSave.CloudSaveService.Instance.Data.ForceSaveAsync(scoreData)
-        //     .ContinueWith(task => {
-        //         if (task.IsCompletedSuccessfully)
-        //         {
-        //             Debug.Log("Score saved successfully!");
-        //         }
-        //         else
-        //         {
-        //             Debug.LogError("Error saving score: " + task.Exception);
-        //         }
-        //     });
+        public void StartTimer()
+        {
+            elapsedTime = 0f;
+            isRunning = true;
+            if (timerCoroutine != null)
+            {
+                parent.StopCoroutine(timerCoroutine);
+            }
+            timerCoroutine = parent.StartCoroutine(TimerCoroutine());
+        }
 
-        // For testing, you might want to simply use PlayerPrefs:
-        // PlayerPrefs.SetString("PlayerName", playerName);
-        // PlayerPrefs.SetInt("Score", score);
-        // PlayerPrefs.Save();
-        // Debug.Log("Score saved locally using PlayerPrefs.");
+        public void StopTimer()
+        {
+            isRunning = false;
+            if (timerCoroutine != null)
+            {
+                parent.StopCoroutine(timerCoroutine);
+                timerCoroutine = null;
+            }
+        }
+
+        public float GetElapsedTime() { return elapsedTime; }
+        private IEnumerator TimerCoroutine()
+        {
+            while (isRunning)
+            {
+                yield return new WaitForSeconds(1f);
+                if (GameManager.inst.IsState(GameManager.GameState.Play))
+                {
+                    elapsedTime += 1f;
+                    if (parent.timeText != null)
+                    {
+                        parent.timeText.text = ((int)elapsedTime).ToString();
+                    }
+                }
+            }
+        }
     }
 }

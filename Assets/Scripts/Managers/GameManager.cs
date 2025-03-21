@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
     {
         Idle,
         Play,
-        Endgame
+        Win,
+        Loss
     }
 
     // Static instance for global access
@@ -56,10 +57,13 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Play:
                 // Handle play state if needed
+                // ScoreManager.Inst.UpdateNameTextUI(ScoreConfig.Inst.playerName);
                 break;
-            case GameState.Endgame:
+            case GameState.Loss:
+                break;
+            case GameState.Win:
                 // Trigger game restart after 3 seconds when endgame is reached
-                TriggerRestartGame(3);
+                TriggerEndGame(3, "EndScene");
                 break;
         }
     }
@@ -78,9 +82,9 @@ public class GameManager : MonoBehaviour
     /// Triggers a restart of the game after a specified delay.
     /// </summary>
     /// <param name="secondsBeforeRestart">Seconds to wait before restarting the game.</param>
-    public void TriggerRestartGame(int secondsBeforeRestart)
+    public void TriggerEndGame(int secondsBeforeRestart, string sceneName)
     {
-        StartCoroutine(RestartGameCoroutine(secondsBeforeRestart));
+        StartCoroutine(LoadSceneGameCoroutine(secondsBeforeRestart, sceneName));
     }
 
     /// <summary>
@@ -88,10 +92,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="seconds">Seconds to wait.</param>
     /// <returns>IEnumerator for coroutine.</returns>
-    private IEnumerator RestartGameCoroutine(int seconds)
+    private IEnumerator LoadSceneGameCoroutine(int seconds, string sceneName)
     {
         yield return new WaitForSeconds(seconds);
-        RestartGame();
+        SceneManager.LoadScene(sceneName);
+        // RestartGame();
     }
 
     /// <summary>
@@ -100,6 +105,6 @@ public class GameManager : MonoBehaviour
     private void RestartGame()
     {
         // Add any additional reset logic here if needed
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
