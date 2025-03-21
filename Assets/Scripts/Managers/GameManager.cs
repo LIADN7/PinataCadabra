@@ -54,10 +54,11 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Idle:
                 // Handle idle state if needed
+                RestartGame();
                 break;
             case GameState.Play:
                 // Handle play state if needed
-                // ScoreManager.Inst.UpdateNameTextUI(ScoreConfig.Inst.playerName);
+                RestartGame();
                 break;
             case GameState.Loss:
                 break;
@@ -104,7 +105,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void RestartGame()
     {
-        // Add any additional reset logic here if needed
+        ScoreConfig.Inst.ResetScore();
+
+        // Add any additional 
         // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
