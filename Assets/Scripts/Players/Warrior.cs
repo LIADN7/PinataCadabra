@@ -8,19 +8,29 @@ public class Warrior : Player
     public MovementJoystick movementJoystick;
     [Header("Firing Settings")]
     public WeaponSpawner spawner; // Assign WeaponSpawner
+    [Header("Warrior Sound Manager")]
+    public WarriorSoundManager sounds;
 
     public float playerSpeed;
     public float yOffSet = 0.3f; // Maximum offset allowed from the initial Y position
+    public float xOffSet = 0.5f;
     private float smoothing = 5f; // Smoothing factor for stop movement
 
     private float initY;
     private Rigidbody2D rb;
+    private float leftBound;
+    private float rightBound;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         initY = transform.position.y; // Initial Y position
+
+        // Calculate camera bounds
+        float zDist = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
+        leftBound = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, zDist)).x;
+        rightBound = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, zDist)).x;
     }
 
     void FixedUpdate()
@@ -38,21 +48,21 @@ public class Warrior : Player
         if (GameManager.inst.IsState(GameManager.GameState.Play))
         {
             spawner.SpawnAndFireWeapon(direction);
+            sounds.PlaySpellAndCastEffect();
         }
     }
 
-    // Joysticl movement
+    // Joystick movement
     public override void Move()
     {
-        Vector2 targetVelocity = Vector2.zero;
-        if (movementJoystick.joystickVec.y != 0)
-        {
-            targetVelocity = new Vector2(movementJoystick.joystickVec.x * playerSpeed,
-                                         movementJoystick.joystickVec.y * playerSpeed);
-        }
+        Vector2 targetVelocity = new Vector2(
+            movementJoystick.joystickVec.x * playerSpeed,
+            movementJoystick.joystickVec.y * playerSpeed);
         rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, targetVelocity, smoothing * Time.fixedDeltaTime);
+
         float clampedY = Mathf.Clamp(transform.position.y, initY - yOffSet, initY + yOffSet);
-        transform.position = new Vector3(transform.position.x, clampedY, transform.position.z);
+        float clampedX = Mathf.Clamp(transform.position.x, leftBound + xOffSet, rightBound - xOffSet);
+        transform.position = new Vector3(clampedX, clampedY, transform.position.z);
     }
 
     public override void Die()

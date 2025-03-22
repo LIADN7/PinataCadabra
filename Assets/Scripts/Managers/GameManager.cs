@@ -105,9 +105,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void RestartGame()
     {
-        ScoreConfig.Inst.ResetScore();
+        ScoreConfig.Inst?.ResetScore();
 
-        // Add any additional 
         // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -10,6 +10,8 @@ public class Pinata : Player
     [SerializeField] private int hitModulo = 3;
     [SerializeField] public GameObject[] headsObject;
     [SerializeField] public GameObject explosionGO;
+
+    [SerializeField] public TrashTalkSoundManager talkSound;
     private int hitCount = 0; // Counter for the number of hits
 
     public PointSpawner PointSpawner;
@@ -26,11 +28,14 @@ public class Pinata : Player
         Rigidbody2D rb = transform.parent.GetComponent<Rigidbody2D>();
         // For a small push on start
         rb.AddTorque(2f, ForceMode2D.Impulse);
+        talkSound.StartLoopWithStartSound();
     }
 
     public override void Die()
     {
+        talkSound.StopLoop();
         explosionGO.GetComponent<ParticleSystem>().Play();
+        explosionGO.GetComponent<AudioSource>()?.Play();
         for (int i = 0; i < 20; i++)
         {
             PointSpawner spawner = FindObjectOfType<PointSpawner>();
