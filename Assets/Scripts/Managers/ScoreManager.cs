@@ -57,7 +57,7 @@ public class ScoreManager : MonoBehaviour
     public void UpdateScoreTextUI(int score)
     {
 
-        scoreText.text = score.ToString();
+        scoreText.text = "Score: " + score.ToString();
 
     }
 
