@@ -13,6 +13,6 @@ public class MainSceneLoader : MonoBehaviour
         {
             GameManager.inst.ChangeState(GameManager.GameState.Play);
         }
-        SceneManager.LoadScene(sceneName);
+        // SceneManager.LoadScene(sceneName);
     }
 }

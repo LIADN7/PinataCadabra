@@ -19,7 +19,7 @@ public class WeaponSpawner : MonoBehaviour
     public void SpawnAndFireWeapon(Vector2 direction)
     {
         // Cooldown check
-        if (Time.time - lastFireTime < 1f / FireRate)
+        if (Time.time - lastFireTime < FireRate)
         {
             Debug.Log("WeaponSpawner: Cooldown active.");
             return;

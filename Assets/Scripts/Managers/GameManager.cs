@@ -55,10 +55,16 @@ public class GameManager : MonoBehaviour
             case GameState.Idle:
                 // Handle idle state if needed
                 RestartGame();
+                StartCoroutine(LoadSceneGameCoroutine(0, "MainScene"));
                 break;
             case GameState.Play:
-                // Handle play state if needed
-                RestartGame();
+                if (ScoreConfig.Inst?.playerName.Length > 0)
+                {
+
+                    // Handle play state if needed
+                    RestartGame();
+                    StartCoroutine(LoadSceneGameCoroutine(0, "GameScene"));
+                }
                 break;
             case GameState.Loss:
                 break;
