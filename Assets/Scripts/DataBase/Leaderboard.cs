@@ -58,7 +58,6 @@ public class Leaderboard
         // Wrap the leaderboard entries in a container class to allow serialization
         LeaderboardWrapper wrapper = new LeaderboardWrapper(leaderboardEntries);
         string json = JsonUtility.ToJson(wrapper, true);
-        Debug.Log(json);
         return json;
     }
 

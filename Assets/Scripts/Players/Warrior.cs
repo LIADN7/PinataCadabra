@@ -11,6 +11,8 @@ public class Warrior : Player
     [Header("Warrior Sound Manager")]
     public WarriorSoundManager sounds;
 
+    // Reference to the Particle System
+    public ParticleSystem itemEffect;
     public float playerSpeed;
     private float smoothing = 5f; // Smoothing factor for stop movement
 
@@ -38,8 +40,11 @@ public class Warrior : Player
     {
         if (GameManager.inst.IsState(GameManager.GameState.Play))
         {
-            spawner.SpawnAndFireWeapon(direction);
-            sounds.PlaySpellAndCastEffect();
+            if (spawner.SpawnAndFireWeapon(direction))
+            {
+
+                sounds.PlaySpellAndCastEffect();
+            }
         }
     }
 
@@ -87,5 +92,11 @@ public class Warrior : Player
                 .setEase(LeanTweenType.easeInOutSine);
         }
 
+    }
+
+    // Play the particle system
+    public void TakeItemEffect()
+    {
+        itemEffect.Play();
     }
 }

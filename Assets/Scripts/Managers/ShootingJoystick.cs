@@ -37,6 +37,14 @@ public class ShootingJoystick : MonoBehaviour
         PointerEventData pointerEventData = baseEventData as PointerEventData;
         Vector2 dragPos = pointerEventData.position;
 
+        // Clamp the drag position so that the joystick only moves in the lower half of the circle.
+        // If the drag is above the joystick's original position, set it to the original y value.
+        if (dragPos.y > joystickOriginalPos.y)
+        {
+            dragPos.y = joystickOriginalPos.y;
+        }
+
+        // Calculate the direction vector and its distance
         joystickVec = (dragPos - joystickOriginalPos).normalized;
         float joystickDist = Vector2.Distance(dragPos, joystickOriginalPos);
 
@@ -48,6 +56,7 @@ public class ShootingJoystick : MonoBehaviour
         {
             joystick.transform.position = joystickOriginalPos + joystickVec * joystickRadius;
         }
+
         wand.UpdateDirection(joystickVec);
     }
 

@@ -36,14 +36,17 @@ public class Pinata : Player
         talkSound.StopLoop();
         explosionGO.GetComponent<ParticleSystem>().Play();
         explosionGO.GetComponent<AudioSource>()?.Play();
+        int sumPoint = 0;
         for (int i = 0; i < 20; i++)
         {
             PointSpawner spawner = FindObjectOfType<PointSpawner>();
             if (spawner != null)
             {
-                spawner.SpawnPoint();
+                sumPoint += spawner.SpawnPoint();
             }
         }
+        ScoreConfig.inst.AddScore(sumPoint);
+        ScoreManager.Inst?.UpdateScoreTextUI(ScoreConfig.inst.score);
         ScoreManager.Inst.StopTimer();
         ScoreConfig.inst.SetFinalGameTime(ScoreManager.Inst.GetLastTimer());
         GameManager.inst.ChangeState(GameManager.GameState.Win);
@@ -67,8 +70,8 @@ public class Pinata : Player
         // Create point item and spawn
         int newPoint = PointSpawner.SpawnPoint();
 
-        ScoreConfig.inst.AddScore(newPoint);
-        ScoreManager.Inst?.UpdateScoreTextUI(ScoreConfig.inst.score);
+        // ScoreConfig.inst.AddScore(newPoint);
+        // ScoreManager.Inst?.UpdateScoreTextUI(ScoreConfig.inst.score);
 
         DamageEffect();
         // Every "hitModulo" hits, trigger DropHeadEffect
