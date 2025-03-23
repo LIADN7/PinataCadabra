@@ -1,19 +1,17 @@
 using UnityEngine;
 
-/// <summary>
-/// Represents the warrior's weapon.
-/// </summary>
-public class WorriorSpell : Weapon
+// Inherit from Weapon and implement the Fire method to handle firing projectiles
+public class PinataWeapon : Weapon
 {
     [Header("Movement Settings")]
-    public float projectileSpeed = 5f;
+    public float projectileSpeed = 4f;
     private Rigidbody2D rb;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         this.Damage = -1;
-        this.Lifetime = 3f;
+        this.Lifetime = 5f;
     }
 
     public override void Fire(Vector2 direction)
@@ -55,16 +53,16 @@ public class WorriorSpell : Weapon
     protected void OnTriggerEnter2D(Collider2D other)
     {
 
-        if (other.CompareTag("Pinata"))
+        if (other.CompareTag("Worrior"))
         {
-            Pinata pinata = other.GetComponent<Pinata>();
-            if (pinata != null)
-            {
+            Warrior worrior = other.GetComponent<Warrior>();
 
-                pinata.UpdateLife(this.Damage);
-                this.tag = "Finish";
-                pinata.Hit();
-            }
+            Debug.Log("aaaaaaa");
+
+            worrior.UpdateLife(this.Damage);
+            this.tag = "Finish";
+            worrior.Hit();
+
             Hit();
         }
     }
