@@ -55,17 +55,14 @@ public class WorriorSpell : Weapon
     protected void OnTriggerEnter2D(Collider2D other)
     {
 
-        if (other.CompareTag("Pinata"))
+        if (other.CompareTag("Pinata") && !IsDead && GameManager.inst.IsState(GameManager.GameState.Play))
         {
             Pinata pinata = other.GetComponent<Pinata>();
-            if (pinata != null)
-            {
+            this.tag = "Finish";
 
-                pinata.UpdateLife(this.Damage);
-                this.tag = "Finish";
-                pinata.Hit();
-            }
             Hit();
+            pinata.UpdateLife(this.Damage);
+            pinata.Hit();
         }
     }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Represents a point object that carries a specific score value.
+/// Represents a point object that carries a specific score value
 /// </summary>
 public class Point : MonoBehaviour
 {

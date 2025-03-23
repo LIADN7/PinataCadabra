@@ -13,7 +13,6 @@ public abstract class Player : MonoBehaviour
     public abstract void Shoot(Vector2 direction);
     public abstract void Move();
     public abstract void Die();
-    public abstract void Win();
     public abstract void Hit();
 
     // Concrete implementation shared by subclasses

@@ -69,7 +69,7 @@ public class ScoreManager : MonoBehaviour
 
 
 
-    // Nested private class that handles game time logic.
+    // Nested private class that handles game time logic
     private class GameTimeManager
     {
         private float elapsedTime = 0f;

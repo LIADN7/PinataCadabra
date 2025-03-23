@@ -16,8 +16,6 @@ public class WarriorSoundManager : MonoBehaviour
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        // if (audioSource == null)
-        //     audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     public void PlaySpellAndCastEffect()

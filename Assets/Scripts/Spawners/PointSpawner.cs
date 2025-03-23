@@ -13,9 +13,7 @@ public class PointSpawner : MonoBehaviour
     [SerializeField] private float fallSpeed = 5f;
     [SerializeField] private float destroyAfter = 5f;
 
-    /// <summary>
-    /// Spawns the point prefab at the spawnPoint's position and makes it fly out
-    /// </summary>
+    // Spawns the point prefab at the spawnPoint's position and makes it fly out
     public int SpawnPoint()
     {
 
@@ -45,7 +43,6 @@ public class PointSpawner : MonoBehaviour
         }
         else
         {
-            // If no Rigidbody2D is attached, simulate a "fly out" effect using LeanTween
             float randomX = Random.Range(-1f, 1f);
             Vector3 targetPos = spawnPos + new Vector3(randomX, -5f, 0f);
             LeanTween.move(spawnedPoint, targetPos, destroyAfter).setEase(LeanTweenType.easeInQuad);

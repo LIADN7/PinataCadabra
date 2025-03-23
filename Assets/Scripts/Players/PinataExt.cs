@@ -14,7 +14,6 @@ public class PinataExt : Pinata
     private void Start()
     {
         Rigidbody2D rb = transform.parent.GetComponent<Rigidbody2D>();
-        // For a small push on start
         rb.AddTorque(2f, ForceMode2D.Impulse);
         talkSound.StartLoopWithStartSound();
         this.StartShooting();
@@ -29,12 +28,14 @@ public class PinataExt : Pinata
         }
     }
 
+    // Stops the shooting coroutine before calling the base Die
     public override void Die()
     {
         StopShooting();
         base.Die();
     }
 
+    // Starts the continuous shooting coroutine if it's not already running
     public void StartShooting()
     {
         if (shootCoroutine == null)
@@ -43,6 +44,7 @@ public class PinataExt : Pinata
         }
     }
 
+    // Stops the continuous shooting coroutine if it is running
     public void StopShooting()
     {
         if (shootCoroutine != null)
@@ -52,6 +54,7 @@ public class PinataExt : Pinata
         }
     }
 
+    // Coroutine that repeatedly with a random delay to create Shoot
     private IEnumerator ShootLoop()
     {
         while (true)

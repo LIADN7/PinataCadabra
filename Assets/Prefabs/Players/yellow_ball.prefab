@@ -9782,7 +9782,7 @@ GameObject:
   - component: {fileID: -6318373301831489603}
   m_Layer: 0
   m_Name: yellow_ball
-  m_TagString: WorriorSpell
+  m_TagString: SpellBody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

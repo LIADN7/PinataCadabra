@@ -8,13 +8,10 @@ public class DisplayLeaderboard : MonoBehaviour
     public TextMeshProUGUI textMeshPro;
     private void Start()
     {
-
-        // Call the method to update the leaderboard on the start
-        DisplayLeaderboardEntries();
         menu.SetActive(false);
     }
 
-    // Method to display leaderboard entries in the TextMeshPro UI
+    // Method to display leaderboard entries
     public void DisplayLeaderboardEntries()
     {
         menu.SetActive(!menu.active);

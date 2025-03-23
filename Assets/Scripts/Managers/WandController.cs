@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Controls the wand's behavior by updating its rotation based on input direction
+/// </summary>
 public class WandController : MonoBehaviour
 {
     // Updates the wand's rotation
