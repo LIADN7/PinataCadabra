@@ -27,14 +27,14 @@ public class WorriorSpell : Weapon
         if (!IsDead)
         {
             IsDead = true;
-            ExplosionEffect();
+            ExplosionSpellEffect();
         }
 
 
     }
 
-    // Scale and opacity tween for "Explosion Effect"
-    private void ExplosionEffect()
+    // Scale and opacity tween for "Explosion Effect" of spell
+    private void ExplosionSpellEffect()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         float duration = 0.5f;

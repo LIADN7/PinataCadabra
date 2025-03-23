@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
         Loss
     }
 
-    // Static instance for global access
     public static GameManager inst;
 
     // Current state of the game
@@ -21,11 +20,10 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Ensure only one instance of GameManager exists
         if (inst == null)
         {
             inst = this;
-            RestartGame(); // Optionally initialize or restart the game
+            RestartGame();
         }
         else
         {
@@ -42,9 +40,8 @@ public class GameManager : MonoBehaviour
     public GameState CurrentState => currentState;
 
     /// <summary>
-    /// Changes the game state and triggers any state-specific logic.
+    /// Changes the game state and triggers any state-specific logic
     /// </summary>
-    /// <param name="newState">The new game state to switch to.</param>
     public void ChangeState(GameState newState)
     {
         currentState = newState;
@@ -53,46 +50,55 @@ public class GameManager : MonoBehaviour
         switch (currentState)
         {
             case GameState.Idle:
-                // Handle idle state if needed
                 RestartGame();
+                StartCoroutine(LoadSceneGameCoroutine(0, "MainScene"));
                 break;
             case GameState.Play:
-                // Handle play state if needed
-                RestartGame();
+                if (ScoreConfig.inst?.playerName.Length > 0)
+                {
+                    RestartGame();
+                    StartCoroutine(LoadSceneGameCoroutine(0, "GameScene"));
+                }
                 break;
             case GameState.Loss:
                 break;
             case GameState.Win:
-                // Trigger game restart after 3 seconds when endgame is reached
+                SendScoreToCload();
                 TriggerEndGame(3, "EndScene");
                 break;
         }
     }
 
+
+    private void SendScoreToCload()
+    {
+
+        ScoreEntry newScoreEntry = new ScoreEntry()
+        {
+            playerName = ScoreConfig.inst.playerName,
+            score = ScoreConfig.inst.score,
+            finalGameTime = ScoreConfig.inst.finalGameTime
+        };
+
+        DatabaseManager.inst.AddNewScoreEntry(newScoreEntry);
+    }
+
     /// <summary>
-    /// Checks if the current game state matches the provided state.
+    /// Checks if the current game state matches the provided state
     /// </summary>
-    /// <param name="state">The state to check against.</param>
-    /// <returns>True if the current state matches; otherwise, false.</returns>
     public bool IsState(GameState state)
     {
         return currentState == state;
     }
 
-    /// <summary>
-    /// Triggers a restart of the game after a specified delay.
-    /// </summary>
-    /// <param name="secondsBeforeRestart">Seconds to wait before restarting the game.</param>
     public void TriggerEndGame(int secondsBeforeRestart, string sceneName)
     {
         StartCoroutine(LoadSceneGameCoroutine(secondsBeforeRestart, sceneName));
     }
 
     /// <summary>
-    /// Coroutine that waits for a specified duration before restarting the game.
+    /// Coroutine that waits for a specified duration before load the scene
     /// </summary>
-    /// <param name="seconds">Seconds to wait.</param>
-    /// <returns>IEnumerator for coroutine.</returns>
     private IEnumerator LoadSceneGameCoroutine(int seconds, string sceneName)
     {
         yield return new WaitForSeconds(seconds);
@@ -100,14 +106,8 @@ public class GameManager : MonoBehaviour
         // RestartGame();
     }
 
-    /// <summary>
-    /// Restarts the game by reloading the active scene.
-    /// </summary>
     private void RestartGame()
     {
-        ScoreConfig.Inst.ResetScore();
-
-        // Add any additional 
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        ScoreConfig.inst?.ResetScore();
     }
 }

@@ -10,6 +10,8 @@ public class Pinata : Player
     [SerializeField] private int hitModulo = 3;
     [SerializeField] public GameObject[] headsObject;
     [SerializeField] public GameObject explosionGO;
+
+    [SerializeField] public TrashTalkSoundManager talkSound;
     private int hitCount = 0; // Counter for the number of hits
 
     public PointSpawner PointSpawner;
@@ -26,11 +28,14 @@ public class Pinata : Player
         Rigidbody2D rb = transform.parent.GetComponent<Rigidbody2D>();
         // For a small push on start
         rb.AddTorque(2f, ForceMode2D.Impulse);
+        talkSound.StartLoopWithStartSound();
     }
 
     public override void Die()
     {
+        talkSound.StopLoop();
         explosionGO.GetComponent<ParticleSystem>().Play();
+        explosionGO.GetComponent<AudioSource>()?.Play();
         for (int i = 0; i < 20; i++)
         {
             PointSpawner spawner = FindObjectOfType<PointSpawner>();
@@ -40,7 +45,7 @@ public class Pinata : Player
             }
         }
         ScoreManager.Inst.StopTimer();
-        ScoreConfig.Inst.SetFinalGameTime(ScoreManager.Inst.GetLastTimer());
+        ScoreConfig.inst.SetFinalGameTime(ScoreManager.Inst.GetLastTimer());
         GameManager.inst.ChangeState(GameManager.GameState.Win);
         Destroy(gameObject);
     }
@@ -67,8 +72,8 @@ public class Pinata : Player
         // Create point item and spawn
         int newPoint = PointSpawner.SpawnPoint();
 
-        ScoreConfig.Inst.AddScore(newPoint);
-        ScoreManager.Inst?.UpdateScoreTextUI(ScoreConfig.Inst.score);
+        ScoreConfig.inst.AddScore(newPoint);
+        ScoreManager.Inst?.UpdateScoreTextUI(ScoreConfig.inst.score);
 
         DamageEffect();
         // Every "hitModulo" hits, trigger DropHeadEffect

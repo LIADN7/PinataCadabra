@@ -7,11 +7,12 @@ using UnityEngine.EventSystems;
 public class ShootingJoystick : MonoBehaviour
 {
     [Header("Warrior Reference")]
-    public Warrior warrior; // Assign the Warrior (player) in the Inspector
+    public Warrior warrior; //  Warrior (player) in the Inspector
     [Header("Joystick UI References")]
     public GameObject joystick;
     public GameObject joystickBG;
-
+    [Header("Wand Reference")]
+    public WandController wand; // WandController (wand object) in the Inspector
     private Vector2 joystickVec;
     private Vector2 joystickOriginalPos;
     private float joystickRadius;
@@ -21,11 +22,13 @@ public class ShootingJoystick : MonoBehaviour
     {
         joystickOriginalPos = joystickBG.transform.position;
         joystickRadius = joystickBG.GetComponent<RectTransform>().sizeDelta.y / 2;
+        wand.HideWand();
     }
 
     public void PointerDown()
     {
         joystick.transform.position = joystickOriginalPos;
+        wand.ShowWand();
     }
 
     // Update the position to shoot
@@ -45,6 +48,7 @@ public class ShootingJoystick : MonoBehaviour
         {
             joystick.transform.position = joystickOriginalPos + joystickVec * joystickRadius;
         }
+        wand.UpdateDirection(joystickVec);
     }
 
     // Called when the player releases the shooting joystick
@@ -63,5 +67,6 @@ public class ShootingJoystick : MonoBehaviour
         // Reset the knob
         joystick.transform.position = joystickOriginalPos;
         joystickVec = Vector2.zero;
+        wand.HideWand();
     }
 }
