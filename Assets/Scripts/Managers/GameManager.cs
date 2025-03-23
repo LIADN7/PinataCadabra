@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager inst;
 
+    private string levelToLoad = "GameScene";
+
     // Current state of the game
     [SerializeField] private GameState currentState = GameState.Idle;
 
@@ -57,10 +59,12 @@ public class GameManager : MonoBehaviour
                 if (ScoreConfig.inst?.playerName.Length > 0)
                 {
                     RestartGame();
-                    StartCoroutine(LoadSceneGameCoroutine(0, "GameScene"));
+                    StartCoroutine(LoadSceneGameCoroutine(0, levelToLoad));
                 }
                 break;
             case GameState.Loss:
+                SendScoreToCload();
+                TriggerEndGame(2, "EndScene");
                 break;
             case GameState.Win:
                 SendScoreToCload();
@@ -109,5 +113,11 @@ public class GameManager : MonoBehaviour
     private void RestartGame()
     {
         ScoreConfig.inst?.ResetScore();
+    }
+
+
+    public void SetLevelToLoad(string level)
+    {
+        levelToLoad = level;
     }
 }

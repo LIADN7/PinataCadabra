@@ -68,7 +68,7 @@ public class Pinata : Player
     public override void Hit()
     {
         hitCount++; // Increment hit counter on each hit
-        this.UpdateLife(-1);
+        // this.UpdateLife(-1);
         // Create point item and spawn
         int newPoint = PointSpawner.SpawnPoint();
 
@@ -89,9 +89,6 @@ public class Pinata : Player
     {
         if (other.CompareTag("WorriorSpell"))
         {
-            // To count 1 hit
-            other.tag = "Finish";
-            Hit();
         }
     }
 
