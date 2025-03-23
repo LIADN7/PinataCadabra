@@ -1,6 +1,5 @@
-using TMPro;
+using System;
 using UnityEngine;
-// using Unity.Services.CloudSave;
 
 /// <summary>
 /// Manages the player's score
@@ -8,7 +7,7 @@ using UnityEngine;
 public class ScoreConfig : MonoBehaviour
 {
     // Singleton instance
-    public static ScoreConfig Inst { get; private set; }
+    public static ScoreConfig inst { get; private set; }
 
     [Header("Player Data")]
     public string playerName;
@@ -19,13 +18,13 @@ public class ScoreConfig : MonoBehaviour
 
     private void Awake()
     {
-        if (Inst == null)
+        if (inst == null)
         {
 
-            Inst = this;
+            inst = this;
             DontDestroyOnLoad(gameObject);
         }
-        else if (Inst != this)
+        else if (inst != this)
         {
             Destroy(gameObject);
         }
@@ -36,7 +35,6 @@ public class ScoreConfig : MonoBehaviour
     public void AddScore(int points)
     {
         score += points;
-        // UpdateScoreTextUI();
     }
 
 
@@ -44,7 +42,6 @@ public class ScoreConfig : MonoBehaviour
     public void SetPlayerName(string name)
     {
         playerName = name;
-        // UpdateNameTextUI();
     }
     public void SetFinalGameTime(float time)
     {
@@ -57,44 +54,7 @@ public class ScoreConfig : MonoBehaviour
     {
         finalGameTime = 0;
         score = 0;
-        // UpdateScoreTextUI();
-
     }
-
-    // Update leadboard on Unity Cloud
-    public void SaveScoreToCloud()
-    {
-        Debug.Log("Saving score to Unity Cloud...");
-
-        // Create a data object (could be a JSON or a Dictionary<string, object>)
-        var scoreData = new System.Collections.Generic.Dictionary<string, object>
-        {
-            { "playerName", playerName },
-            { "score", score }
-        };
-
-
-
-        // Pseudo-code for cloud save:
-        // Unity.Services.CloudSave.CloudSaveService.Instance.Data.ForceSaveAsync(scoreData)
-        //     .ContinueWith(task => {
-        //         if (task.IsCompletedSuccessfully)
-        //         {
-        //             Debug.Log("Score saved successfully!");
-        //         }
-        //         else
-        //         {
-        //             Debug.LogError("Error saving score: " + task.Exception);
-        //         }
-        //     });
-
-        // For testing, you might want to simply use PlayerPrefs:
-        // PlayerPrefs.SetString("PlayerName", playerName);
-        // PlayerPrefs.SetInt("Score", score);
-        // PlayerPrefs.Save();
-        // Debug.Log("Score saved locally using PlayerPrefs.");
-    }
-
 
 
 }

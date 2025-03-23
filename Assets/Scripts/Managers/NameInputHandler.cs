@@ -7,13 +7,13 @@ public class ScoreInputHandler : MonoBehaviour
 
     private void Start()
     {
-        inputField.text = ScoreConfig.Inst?.playerName;
+        inputField.text = ScoreConfig.inst?.playerName;
     }
 
 
     // Call this method when editing ends or a button is pressed.
     public void UpdateScoreConfigFromInput()
     {
-        ScoreConfig.Inst.SetPlayerName(inputField.text);
+        ScoreConfig.inst.SetPlayerName(inputField.text);
     }
 }

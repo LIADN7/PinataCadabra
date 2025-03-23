@@ -30,10 +30,10 @@ public class ScoreManager : MonoBehaviour
         else
         {
             StopTimer();
-            UpdateTime(ScoreConfig.Inst.finalGameTime);
+            UpdateTime(ScoreConfig.inst.finalGameTime);
         }
-        UpdateNameTextUI(ScoreConfig.Inst.playerName);
-        UpdateScoreTextUI(ScoreConfig.Inst.score);
+        UpdateNameTextUI(ScoreConfig.inst.playerName);
+        UpdateScoreTextUI(ScoreConfig.inst.score);
     }
 
     public void StartTimer()
