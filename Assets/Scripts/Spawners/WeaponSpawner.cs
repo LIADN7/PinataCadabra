@@ -16,17 +16,18 @@ public class WeaponSpawner : MonoBehaviour
 
 
     // Spawns the weapon prefab and calls Fire()
-    public void SpawnAndFireWeapon(Vector2 direction)
+    public bool SpawnAndFireWeapon(Vector2 direction)
     {
         // Cooldown check
         if (Time.time - lastFireTime < FireRate)
         {
             Debug.Log("WeaponSpawner: Cooldown active.");
-            return;
+            return false;
         }
 
         lastFireTime = Time.time;
         Weapon newWeapon = Instantiate(weaponPrefab, spawnPoint.position, Quaternion.identity);
         newWeapon.Fire(direction);
+        return true;
     }
 }
