@@ -20,6 +20,8 @@ public class MapBoundary : MonoBehaviour
         UpdateBoundaryPosition();
     }
 
+
+    // Update the boundary position on the game
     private void UpdateBoundaryPosition()
     {
         Vector3 boundaryPos;

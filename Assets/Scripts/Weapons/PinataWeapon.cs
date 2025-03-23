@@ -49,21 +49,17 @@ public class PinataWeapon : Weapon
                 .setOnComplete(() => Destroy(gameObject));
     }
 
-
     protected void OnTriggerEnter2D(Collider2D other)
     {
 
-        if (other.CompareTag("Worrior"))
+        if (other.CompareTag("Worrior") && !IsDead && GameManager.inst.IsState(GameManager.GameState.Play))
         {
             Warrior worrior = other.GetComponent<Warrior>();
-
-            Debug.Log("aaaaaaa");
-
-            worrior.UpdateLife(this.Damage);
             this.tag = "Finish";
+            Hit();
+            worrior.UpdateLife(this.Damage);
             worrior.Hit();
 
-            Hit();
         }
     }
 

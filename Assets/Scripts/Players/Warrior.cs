@@ -61,21 +61,16 @@ public class Warrior : Player
         Destroy(gameObject);
     }
 
-    public override void Win()
-    {
-
-    }
 
     public override void Hit()
     {
         //Update life text
         LifeManager.Inst?.UpdateLife(this.Life);
-
         DamageEffect();
     }
 
 
-
+    // Hit visual effect
     private void DamageEffect()
     {
 

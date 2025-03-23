@@ -1,6 +1,9 @@
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Allows the player to select a level using a Dropdown
+/// </summary>
 public class LevelSelector : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown levelDropdown;

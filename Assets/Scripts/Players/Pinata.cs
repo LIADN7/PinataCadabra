@@ -59,16 +59,11 @@ public class Pinata : Player
         throw new System.NotImplementedException();
     }
 
-    public override void Win()
-    {
-        throw new System.NotImplementedException();
-    }
 
 
     public override void Hit()
     {
         hitCount++; // Increment hit counter on each hit
-        // this.UpdateLife(-1);
         // Create point item and spawn
         int newPoint = PointSpawner.SpawnPoint();
 
@@ -82,14 +77,6 @@ public class Pinata : Player
             DropHeadEffect();
         }
 
-    }
-
-
-    protected void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("WorriorSpell"))
-        {
-        }
     }
 
     // Flashing character on hit

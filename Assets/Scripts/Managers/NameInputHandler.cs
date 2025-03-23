@@ -1,6 +1,9 @@
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Reads user input from a InputField to update the player's name in ScoreConfig (On MainGame)
+/// </summary>
 public class ScoreInputHandler : MonoBehaviour
 {
     [SerializeField] private TMP_InputField inputField;
@@ -10,8 +13,6 @@ public class ScoreInputHandler : MonoBehaviour
         inputField.text = ScoreConfig.inst?.playerName;
     }
 
-
-    // Call this method when editing ends or a button is pressed.
     public void UpdateScoreConfigFromInput()
     {
         ScoreConfig.inst.SetPlayerName(inputField.text);

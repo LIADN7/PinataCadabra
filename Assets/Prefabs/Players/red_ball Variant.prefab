@@ -46,7 +46,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8426372084907255414, guid: cebb035da9a7c20499090f35776aa35b, type: 3}
       propertyPath: m_TagString
-      value: PinataSpell
+      value: SpellBody
       objectReference: {fileID: 0}
     - target: {fileID: 8868424137566020119, guid: cebb035da9a7c20499090f35776aa35b, type: 3}
       propertyPath: m_LocalScale.x

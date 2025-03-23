@@ -4,23 +4,19 @@ using UnityEngine;
 // using Unity.Services.CloudSave;
 
 /// <summary>
-/// Manages the player's score UI
+/// Manages the player's life UI
 /// </summary>
 public class LifeManager : MonoBehaviour
 {
-    // Singleton instance
+
     public static LifeManager Inst { get; private set; }
 
     [SerializeField] private TextMeshProUGUI lifeText;
 
-
     private void Start()
     {
         Inst = this;
-
     }
-
-
 
     public void UpdateLife(float life)
     {

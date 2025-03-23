@@ -2,6 +2,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Central game manager that controls the game flow and state transitions
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     // Enum representing the different game states
@@ -36,14 +39,10 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    /// <summary>
-    /// Gets the current game state.
-    /// </summary>
+    // Gets the current game state.
     public GameState CurrentState => currentState;
 
-    /// <summary>
-    /// Changes the game state and triggers any state-specific logic
-    /// </summary>
+    // Changes the game state and triggers any state-specific logic
     public void ChangeState(GameState newState)
     {
         currentState = newState;
@@ -73,7 +72,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
+    // Sends the current score entry to the cloud database
     private void SendScoreToCload()
     {
 
@@ -87,22 +86,19 @@ public class GameManager : MonoBehaviour
         DatabaseManager.inst.AddNewScoreEntry(newScoreEntry);
     }
 
-    /// <summary>
-    /// Checks if the current game state matches the provided state
-    /// </summary>
+    // Checks if the current game state matches the provided state
     public bool IsState(GameState state)
     {
         return currentState == state;
     }
 
+    // Triggers the end game sequence by loading a specified scene after a delay
     public void TriggerEndGame(int secondsBeforeRestart, string sceneName)
     {
         StartCoroutine(LoadSceneGameCoroutine(secondsBeforeRestart, sceneName));
     }
 
-    /// <summary>
-    /// Coroutine that waits for a specified duration before load the scene
-    /// </summary>
+    // Coroutine that waits for a specified duration before load the scene
     private IEnumerator LoadSceneGameCoroutine(int seconds, string sceneName)
     {
         yield return new WaitForSeconds(seconds);
@@ -110,12 +106,13 @@ public class GameManager : MonoBehaviour
         // RestartGame();
     }
 
+    // Resets the score.
     private void RestartGame()
     {
         ScoreConfig.inst?.ResetScore();
     }
 
-
+    // Sets the level to be loaded when in the Play state.
     public void SetLevelToLoad(string level)
     {
         levelToLoad = level;
